@@ -2239,6 +2239,10 @@ textarea {
     page-break-inside: avoid;
   }
 
+  .sheet-band-strip {
+    margin: 0 0 24px 0 !important;
+  }
+
   .invoice-sheet {
     box-shadow: none !important;
     border: none !important;
