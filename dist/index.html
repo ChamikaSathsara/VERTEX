@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VERTEX | Invoice Maker</title>
+  <meta name="description"
+    content="High-precision, sharp-edge minimal invoice creator with zero border-radius, geometric typography, layout archetypes, color accents, and Chrome PWA installability.">
+
+  <!-- Web App Manifest for Chrome App / PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0a0a0c">
+  <link rel="icon" type="image/png" href="icon-192.png">
+
+  <!-- Sharp Geometric Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@500;700;800&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+  <meta property="og:image" content="https://bolt.new/static/og_default.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://bolt.new/static/og_default.png">
+</head>
+
+<body>
+
+  <!-- ============================================================== -->
+  <!-- SCREEN 1: LANDING & TEMPLATE SHOWCASE (FIRST LOAD & SWITCH)   -->
+  <!-- ============================================================== -->
+  <div class="landing-screen" id="landingScreen">
+    <header class="landing-header">
+      <div class="brand-group">
+        <div class="brand-symbol">
+          <span class="symbol-sharp">■</span>
+        </div>
+        <div class="brand-text">
+          <span class="brand-title">VERTEX</span>
+          <span class="brand-sub">INVOICE_ENGINE // ARCHITECTURAL ZERO-RADIUS</span>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <!-- Install as Chrome App Button -->
+        <button class="btn btn-sm btn-outline btn-install-app" id="landingInstallBtn"
+          title="Install VERTEX as Chrome Desktop App">
+          <span class="symbol-sharp">⤓</span> INSTALL CHROME APP
+        </button>
+
+        <!-- Start Blank Invoice Button -->
+        <button class="btn btn-sm btn-outline" id="landingStartBlankBtn">
+          + BLANK INVOICE
+        </button>
+
+        <!-- Theme Toggle -->
+        <button class="btn btn-sm btn-icon-only btn-ghost theme-toggle-btn" title="Toggle Theme">
+          <span class="theme-icon">☼</span>
+        </button>
+      </div>
+    </header>
+
+    <div class="landing-hero">
+      <div class="hero-badge">ARCHITECTURAL DESIGN SYSTEM // 0PX RADIUS</div>
+      <h1 class="hero-headline">SELECT INVOICE ARCHETYPE</h1>
+      <p class="hero-subtext">Choose an industry-tailored layout with custom color accents, sharp geometric typography,
+        and instant PDF print capabilities.</p>
+
+      <!-- Category Filter Tabs -->
+      <div class="category-tabs" id="categoryFilterBar">
+        <button class="cat-btn active" data-cat="all">ALL ARCHETYPES (8)</button>
+        <button class="cat-btn" data-cat="tech">TECH & ENGINEERING</button>
+        <button class="cat-btn" data-cat="creative">CREATIVE & DESIGN</button>
+        <button class="cat-btn" data-cat="corporate">CORPORATE & LEGAL</button>
+        <button class="cat-btn" data-cat="goods">GOODS & PRODUCTION</button>
+      </div>
+    </div>
+
+    <!-- Template Showcase Grid -->
+    <div class="showcase-container">
+      <div class="showcase-grid" id="showcaseGrid">
+        <!-- 8 Dynamic Template Cards Populated by JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- SCREEN 2: INVOICE BUILDER & WORKSPACE                          -->
+  <!-- ============================================================== -->
+  <div class="workspace-screen" id="workspaceScreen" style="display: none;">
+
+    <!-- Top Application Control Bar -->
+    <header class="app-header" id="appHeader">
+      <div class="brand-group">
+        <!-- Return to Landing Page Button -->
+        <button class="btn btn-sm btn-outline" id="backToLandingBtn" title="Return to Template Showcase">
+          ← TEMPLATES
+        </button>
+        <div class="brand-symbol">
+          <span class="symbol-sharp">■</span>
+        </div>
+        <div class="brand-text">
+          <span class="brand-title">VERTEX</span>
+          <span class="brand-sub" id="activeArchetypeLabel">SWISS GRID // TECH</span>
+        </div>
+      </div>
+
+      <!-- Quick Actions & View Switcher -->
+      <div class="header-actions">
+        <!-- UI Font Size Switcher (Normal / Large) -->
+        <div class="btn-group ui-size-switcher" role="group" aria-label="UI Font Size">
+          <button class="btn btn-sm btn-ghost active" id="uiFontNormalBtn" title="Default UI Font Size">Aa</button>
+          <button class="btn btn-sm btn-ghost" id="uiFontLargeBtn" title="Enhanced Large UI Font Size">AA</button>
+        </div>
+
+        <div class="divider-vertical"></div>
+
+        <!-- Layout View Modes -->
+        <div class="btn-group view-switcher" role="group" aria-label="Layout view mode">
+          <button class="btn btn-sm btn-ghost active" id="viewSplitBtn" title="Split Screen (Editor & Live Preview)">
+            <span class="btn-icon">◫</span> SPLIT
+          </button>
+          <button class="btn btn-sm btn-ghost" id="viewEditBtn" title="Editor Only">
+            <span class="btn-icon">▤</span> EDIT
+          </button>
+          <button class="btn btn-sm btn-ghost" id="viewPreviewBtn" title="Paper Preview Only">
+            <span class="btn-icon">▯</span> PREVIEW
+          </button>
+        </div>
+
+        <div class="divider-vertical"></div>
+
+        <!-- Install Chrome App in Header -->
+        <button class="btn btn-sm btn-outline btn-install-app" id="headerInstallBtn"
+          title="Install as Chrome Desktop App">
+          <span class="symbol-sharp">⤓</span> INSTALL APP
+        </button>
+
+        <!-- Saved Invoices Archive Trigger -->
+        <button class="btn btn-sm btn-outline" id="savedInvoicesBtn">
+          SAVED (<span id="savedCountBadge">0</span>)
+        </button>
+
+        <!-- Save Draft Button -->
+        <button class="btn btn-sm btn-outline" id="saveDraftBtn" title="Save to Browser Storage (Ctrl+S)">
+          SAVE
+        </button>
+
+        <!-- Print / PDF Primary Button -->
+        <button class="btn btn-sm btn-primary" id="printInvoiceBtn" title="Print or Save as PDF (Ctrl+P)">
+          PRINT / PDF
+        </button>
+
+        <div class="divider-vertical"></div>
+
+        <!-- Theme Switcher (Dark / Light) -->
+        <button class="btn btn-sm btn-icon-only btn-ghost theme-toggle-btn" title="Toggle Theme (Dark / Light)">
+          <span class="theme-icon">☼</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Persistent Quick Invoice Color Switcher Bar -->
+    <div class="quick-color-bar" id="quickColorBar">
+      <div class="qcb-inner">
+        <span class="qcb-label font-mono"><span class="symbol-sharp">■</span> INVOICE COLOR:</span>
+        <div class="color-palette-picker quick-palette">
+          <button type="button" class="color-swatch-btn active" data-color="#09090b" title="Onyx Monolith"
+            style="background-color: #09090b;"></button>
+          <button type="button" class="color-swatch-btn" data-color="#1d4ed8" title="Klein Cobalt Blue"
+            style="background-color: #1d4ed8;"></button>
+          <button type="button" class="color-swatch-btn" data-color="#047857" title="Alpine Emerald Green"
+            style="background-color: #047857;"></button>
+          <button type="button" class="color-swatch-btn" data-color="#b91c1c" title="Stark Crimson Red"
+            style="background-color: #b91c1c;"></button>
+          <button type="button" class="color-swatch-btn" data-color="#b45309" title="Amber Industrial Bronze"
+            style="background-color: #b45309;"></button>
+          <button type="button" class="color-swatch-btn" data-color="#6d28d9" title="Deep Violet Plum"
+            style="background-color: #6d28d9;"></button>
+          <button type="button" class="color-swatch-btn" data-color="#334155" title="Graphite Slate Steel"
+            style="background-color: #334155;"></button>
+          <button type="button" class="color-swatch-btn" data-color="#0284c7" title="Cyber Cyan"
+            style="background-color: #0284c7;"></button>
+          <button type="button" class="color-swatch-btn" data-color="#ea580c" title="Neon Coral"
+            style="background-color: #ea580c;"></button>
+          <div class="custom-color-wrapper">
+            <label for="quickCustomColorInput" class="custom-color-label font-mono">CUSTOM:</label>
+            <input type="color" id="quickCustomColorInput" value="#09090b" class="custom-color-input">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Split Layout Container -->
+    <main class="app-layout split-view" id="appLayout">
+
+      <!-- ============================================== -->
+      <!-- LEFT PANEL: INVOICE BUILDER & GUIDED WORKFLOW -->
+      <!-- ============================================== -->
+      <section class="editor-panel" id="editorPanel">
+        <div class="editor-inner mode-stepper" id="editorInner">
+
+          <!-- Stepper Navigation Bar -->
+          <div class="stepper-bar" id="stepperBar">
+            <button class="step-btn active" data-step="1">
+              <span class="step-num">01</span>
+              <span class="step-label">BUSINESS</span>
+            </button>
+            <button class="step-btn" data-step="2">
+              <span class="step-num">02</span>
+              <span class="step-label">CLIENT</span>
+            </button>
+            <button class="step-btn" data-step="3">
+              <span class="step-num">03</span>
+              <span class="step-label">ITEMS & RATES</span>
+            </button>
+            <button class="step-btn" data-step="4">
+              <span class="step-num">04</span>
+              <span class="step-label">DATES & PAYMENT</span>
+            </button>
+            <button class="step-btn" data-step="5">
+              <span class="step-num">05</span>
+              <span class="step-label">STYLE & COLUMNS</span>
+            </button>
+            <button class="step-toggle-all" id="toggleAllSectionsBtn" title="View all sections at once or step-by-step">
+              EXPAND ALL
+            </button>
+          </div>
+
+          <!-- ============================================ -->
+          <!-- STEP 1: BUSINESS & ISSUER DETAILS            -->
+          <!-- ============================================ -->
+          <div class="panel-section step-section active-step" id="stepSection1" data-step-id="1">
+            <div class="section-title-bar">
+              <span class="section-index">01</span>
+              <span class="section-title">BUSINESS CONFIGURATION & ISSUER</span>
+              <span class="badge-tag" id="activeTemplateBadge">TECH / ENGINEERING</span>
+            </div>
+
+            <!-- Basic Invoice Identifiers -->
+            <div class="form-grid-3 mb-md">
+              <div class="form-group">
+                <label for="invNumber">INVOICE NUMBER</label>
+                <div class="input-with-action">
+                  <input type="text" id="invNumber" value="INV-2026-0108" class="input-mono font-bold">
+                  <button type="button" class="btn-addon" id="regenInvNumberBtn"
+                    title="Generate New Invoice Number">↻</button>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="invStatus">INVOICE STATUS</label>
+                <select id="invStatus" class="select-mono">
+                  <option value="DRAFT">● DRAFT</option>
+                  <option value="PENDING" selected>● PENDING</option>
+                  <option value="PAID">● PAID</option>
+                  <option value="OVERDUE">● OVERDUE</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="currencySelect">BASE CURRENCY</label>
+                <select id="currencySelect" class="select-mono">
+                  <option value="USD" data-symbol="$" selected>USD ($) - US Dollar</option>
+                  <option value="EUR" data-symbol="€">EUR (€) - Euro</option>
+                  <option value="GBP" data-symbol="£">GBP (£) - British Pound</option>
+                  <option value="LKR" data-symbol="Rs. ">LKR (Rs) - Sri Lankan Rupee</option>
+                  <option value="JPY" data-symbol="¥">JPY (¥) - Japanese Yen</option>
+                  <option value="AUD" data-symbol="A$">AUD (A$) - Australian Dollar</option>
+                  <option value="CAD" data-symbol="C$">CAD (C$) - Canadian Dollar</option>
+                  <option value="CHF" data-symbol="CHF ">CHF - Swiss Franc</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Issuer Details Box -->
+            <div class="party-box">
+              <div class="party-box-header">
+                <span class="party-role">ISSUER // [YOUR BUSINESS]</span>
+                <div class="logo-actions-group">
+                  <label class="btn btn-xs btn-outline file-input-label" for="logoUploadInput">
+                    <span class="symbol-sharp">↑</span> UPLOAD PNG LOGO
+                    <input type="file" id="logoUploadInput" accept="image/png, image/jpeg, image/svg+xml, image/webp"
+                      style="display:none;">
+                  </label>
+                  <button type="button" class="btn btn-xs btn-ghost text-danger" id="removeLogoBtn"
+                    style="display:none;" title="Remove Logo and Use Monogram">
+                    ✕ REMOVE LOGO
+                  </button>
+                </div>
+              </div>
+
+              <!-- PNG Logo Configuration Controls -->
+              <div class="logo-config-box" id="logoConfigBox" style="display:none;">
+                <div class="form-grid-3">
+                  <div class="form-group">
+                    <label for="logoOrientationSelect">LOGO ORIENTATION</label>
+                    <select id="logoOrientationSelect" class="select-xs select-mono">
+                      <option value="horizontal" selected>Wide: Top of Name (One Column)</option>
+                      <option value="vertical">Tall: Side-by-Side (No Background)</option>
+                      <option value="square">Square / Compact (Side-by-Side)</option>
+                      <option value="natural">Natural Aspect</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="logoHeightSelect">LOGO MAX HEIGHT</label>
+                    <select id="logoHeightSelect" class="select-xs select-mono">
+                      <option value="45">Small (45px)</option>
+                      <option value="65" selected>Medium (65px)</option>
+                      <option value="90">Large (90px)</option>
+                      <option value="120">Extra Large (120px)</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="toggleLogoBorder">LOGO BORDER</label>
+                    <label class="toggle-switch mt-xs">
+                      <input type="checkbox" id="toggleLogoBorder">
+                      <span class="toggle-indicator"></span>
+                      <span class="toggle-text">Border (Off by Default)</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="senderName">BUSINESS / COMPANY NAME</label>
+                <input type="text" id="senderName" value="KONTUR ARCHITECTURAL STUDIOS" class="font-bold">
+              </div>
+
+              <div class="form-group">
+                <label for="senderEmail">EMAIL ADDRESS</label>
+                <input type="email" id="senderEmail" value="finance@kontur-studios.io" class="input-mono">
+              </div>
+
+              <div class="form-group">
+                <label for="senderAddress">STREET & CITY ADDRESS</label>
+                <textarea id="senderAddress" rows="2">452 Industrial Parkway, Floor 04
+Berlin, 10115 Germany</textarea>
+              </div>
+
+              <div class="form-grid-2">
+                <div class="form-group">
+                  <label for="senderPhone">PHONE</label>
+                  <input type="text" id="senderPhone" value="+49 30 9948 2010" class="input-mono">
+                </div>
+                <div class="form-group">
+                  <label for="senderTaxId">TAX / VAT REGISTRATION</label>
+                  <input type="text" id="senderTaxId" value="DE-398402910" class="input-mono">
+                </div>
+              </div>
+            </div>
+
+            <div class="step-navigation-row">
+              <button class="btn btn-sm btn-outline text-danger" id="resetBlankBtn">RESET EMPTY</button>
+              <button class="btn btn-sm btn-primary next-step-btn" data-target-step="2">NEXT: CLIENT RECIPIENT
+                →</button>
+            </div>
+          </div>
+
+          <!-- ============================================ -->
+          <!-- STEP 2: CLIENT RECIPIENT (BILL TO)           -->
+          <!-- ============================================ -->
+          <div class="panel-section step-section" id="stepSection2" data-step-id="2">
+            <div class="section-title-bar">
+              <span class="section-index">02</span>
+              <span class="section-title">CLIENT RECIPIENT // [BILLED TO]</span>
+              <button type="button" class="btn btn-xs btn-outline" id="clearClientBtn">CLEAR CLIENT</button>
+            </div>
+
+            <div class="party-box">
+              <div class="form-group">
+                <label for="clientName">CLIENT / COMPANY NAME</label>
+                <input type="text" id="clientName" value="NEO-SYSTEMS CORP." class="font-bold">
+              </div>
+
+              <div class="form-group">
+                <label for="clientEmail">CONTACT EMAIL</label>
+                <input type="email" id="clientEmail" value="accounts@neosystems.com" class="input-mono">
+              </div>
+
+              <div class="form-group">
+                <label for="clientAddress">BILLING ADDRESS</label>
+                <textarea id="clientAddress" rows="2">780 Silicon Boulevard, Suite 1200
+San Francisco, CA 94107 USA</textarea>
+              </div>
+
+              <div class="form-grid-2">
+                <div class="form-group">
+                  <label for="clientPhone">CLIENT PHONE</label>
+                  <input type="text" id="clientPhone" value="+1 (415) 890-4421" class="input-mono">
+                </div>
+                <div class="form-group">
+                  <label for="clientTaxId">CLIENT TAX / VAT ID</label>
+                  <input type="text" id="clientTaxId" value="US-94-332019" class="input-mono">
+                </div>
+              </div>
+            </div>
+
+            <div class="step-navigation-row">
+              <button class="btn btn-sm btn-outline prev-step-btn" data-target-step="1">← PREVIOUS: BUSINESS</button>
+              <button class="btn btn-sm btn-primary next-step-btn" data-target-step="3">NEXT: ITEMS & DELIVERABLES
+                →</button>
+            </div>
+          </div>
+
+          <!-- ============================================ -->
+          <!-- STEP 3: LINE ITEMS & DELIVERABLES            -->
+          <!-- ============================================ -->
+          <div class="panel-section step-section" id="stepSection3" data-step-id="3">
+            <div class="section-title-bar">
+              <div class="title-with-count">
+                <span class="section-index">03</span>
+                <span class="section-title">LINE ITEMS & DELIVERABLES</span>
+                <span class="item-counter" id="itemCountDisplay">[3 ITEMS]</span>
+              </div>
+              <button type="button" class="btn btn-xs btn-primary" id="addItemTopBtn">
+                + ADD ITEM
+              </button>
+            </div>
+
+            <!-- Items Table Container -->
+            <div class="items-table-wrapper">
+              <table class="items-table" id="itemsTable">
+                <thead>
+                  <tr>
+                    <th class="col-num col-header-num">#</th>
+                    <th class="col-desc col-header-desc">ITEM & SPECIFICATION</th>
+                    <th class="col-qty col-header-qty">QTY</th>
+                    <th class="col-rate col-header-rate">UNIT PRICE</th>
+                    <th class="col-tax col-header-tax">TAX %</th>
+                    <th class="col-total col-header-total">AMOUNT</th>
+                    <th class="col-action"></th>
+                  </tr>
+                </thead>
+                <tbody id="itemsTableBody">
+                  <!-- Dynamically populated rows -->
+                </tbody>
+              </table>
+            </div>
+
+            <div class="items-action-row">
+              <button type="button" class="btn btn-sm btn-outline" id="addItemBtn">
+                + ADD NEW LINE ITEM
+              </button>
+              <div class="quick-helpers">
+                <button type="button" class="btn btn-xs btn-ghost text-muted" id="clearAllItemsBtn">
+                  CLEAR ALL ITEMS
+                </button>
+              </div>
+            </div>
+
+            <div class="step-navigation-row">
+              <button class="btn btn-sm btn-outline prev-step-btn" data-target-step="2">← PREVIOUS: CLIENT</button>
+              <button class="btn btn-sm btn-primary next-step-btn" data-target-step="4">NEXT: DATES & PAYMENT →</button>
+            </div>
+          </div>
+
+          <!-- ============================================ -->
+          <!-- STEP 4: DATES, PAYMENT & SETTLEMENT          -->
+          <!-- ============================================ -->
+          <div class="panel-section step-section" id="stepSection4" data-step-id="4">
+            <div class="section-title-bar">
+              <span class="section-index">04</span>
+              <span class="section-title">DATES, PAYMENT TERMS & SETTLEMENT</span>
+            </div>
+
+            <!-- Date Configuration & Presets -->
+            <div class="date-config-box">
+              <div class="date-config-header">
+                <span class="sub-label">DATE & TERMS CONFIGURATOR</span>
+                <div class="date-format-picker">
+                  <label for="dateFormatSelect">DATE FORMAT:</label>
+                  <select id="dateFormatSelect" class="select-xs select-mono">
+                    <option value="YYYY-MM-DD" selected>YYYY-MM-DD (2026-11-01)</option>
+                    <option value="DD/MM/YYYY">DD/MM/YYYY (01/11/2026)</option>
+                    <option value="MM/DD/YYYY">MM/DD/YYYY (11/01/2026)</option>
+                    <option value="DD MMM YYYY">DD MMM YYYY (01 Nov 2026)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-grid-4">
+                <div class="form-group">
+                  <label for="invDate">ISSUE DATE</label>
+                  <input type="date" id="invDate" class="input-mono">
+                  <div class="quick-date-btns">
+                    <button type="button" class="btn-chip" id="dateTodayBtn">TODAY</button>
+                    <button type="button" class="btn-chip" id="date1stMonthBtn">1ST OF MO.</button>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="invDueDate">DUE DATE</label>
+                  <input type="date" id="invDueDate" class="input-mono">
+                  <div class="quick-date-btns">
+                    <button type="button" class="btn-chip" data-offset="0">RECEIPT</button>
+                    <button type="button" class="btn-chip" data-offset="14">+14D</button>
+                    <button type="button" class="btn-chip" data-offset="30">+30D</button>
+                    <button type="button" class="btn-chip" data-offset="60">+60D</button>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="paymentTerms">PAYMENT TERMS</label>
+                  <select id="paymentTerms">
+                    <option value="Due on Receipt">Due on Receipt</option>
+                    <option value="Net 15 Days">Net 15 Days</option>
+                    <option value="Net 30 Days" selected>Net 30 Days</option>
+                    <option value="Net 45 Days">Net 45 Days</option>
+                    <option value="Net 60 Days">Net 60 Days</option>
+                    <option value="50% Deposit, 50% Completion">50% Deposit, 50% End</option>
+                    <option value="Custom">Custom Terms</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="poNumber">P.O. / REF NO. (OPTIONAL)</label>
+                  <input type="text" id="poNumber" placeholder="PO-8849-B" class="input-mono">
+                </div>
+              </div>
+            </div>
+
+            <!-- Settlement Split: Notes & Calculations -->
+            <div class="settlement-grid mt-md">
+              <!-- Left: Payment details & Notes -->
+              <div class="settlement-left">
+                <div class="form-group">
+                  <label for="bankDetails">WIRE / BANK TRANSFER DETAILS</label>
+                  <textarea id="bankDetails" rows="3" class="input-mono">Bank Name: Deutsche Handelsbank AG
+Account Holder: Kontur Architectural Studios
+IBAN: DE89 3704 0044 0532 0130 00
+SWIFT/BIC: DEUTDEDDXXX</textarea>
+                </div>
+
+                <div class="form-group">
+                  <label for="invoiceNotes">NOTES & INSTRUCTIONS TO RECIPIENT</label>
+                  <textarea id="invoiceNotes"
+                    rows="2">Please reference invoice number on your wire transfer. Remittance advice can be emailed to finance@kontur-studios.io.</textarea>
+                </div>
+
+                <div class="form-group">
+                  <label for="invoiceTerms">TERMS & LEGAL CONDITIONS</label>
+                  <textarea id="invoiceTerms"
+                    rows="2">Payment is due within 30 days of issue date. Late balances are subject to a 1.5% statutory monthly charge.</textarea>
+                </div>
+              </div>
+
+              <!-- Right: Calculations & Totals -->
+              <div class="settlement-right">
+                <div class="calculation-card">
+                  <div class="calc-row">
+                    <span class="calc-label">SUBTOTAL:</span>
+                    <span class="calc-value font-mono" id="subtotalDisplay">$0.00</span>
+                  </div>
+
+                  <!-- Discount Input Row -->
+                  <div class="calc-row">
+                    <div class="calc-inline-input">
+                      <span class="calc-label">DISCOUNT:</span>
+                      <div class="calc-ctrl-group">
+                        <input type="number" id="discountValue" value="0" min="0" step="any"
+                          class="input-xs input-mono">
+                        <select id="discountType" class="select-xs">
+                          <option value="percent">%</option>
+                          <option value="fixed">FIXED</option>
+                        </select>
+                      </div>
+                    </div>
+                    <span class="calc-value font-mono text-danger" id="discountTotalDisplay">-$0.00</span>
+                  </div>
+
+                  <!-- Tax Input Row -->
+                  <div class="calc-row">
+                    <div class="calc-inline-input">
+                      <span class="calc-label">TAX (VAT / GST):</span>
+                      <div class="calc-ctrl-group">
+                        <input type="number" id="taxRate" value="10" min="0" max="100" step="any"
+                          class="input-xs input-mono">
+                        <span class="input-suffix">%</span>
+                      </div>
+                    </div>
+                    <span class="calc-value font-mono" id="taxTotalDisplay">+$0.00</span>
+                  </div>
+
+                  <!-- Shipping / Extra Row -->
+                  <div class="calc-row">
+                    <div class="calc-inline-input">
+                      <span class="calc-label">SHIPPING / EXTRA:</span>
+                      <input type="number" id="shippingFee" value="0" min="0" step="any" class="input-xs input-mono">
+                    </div>
+                    <span class="calc-value font-mono" id="shippingDisplay">+$0.00</span>
+                  </div>
+
+                  <div class="calc-divider"></div>
+
+                  <!-- Grand Total -->
+                  <div class="calc-row grand-total-row">
+                    <span class="total-label">GRAND TOTAL:</span>
+                    <span class="total-value font-mono" id="grandTotalDisplay">$0.00</span>
+                  </div>
+
+                  <!-- Amount Paid & Balance Due -->
+                  <div class="calc-row mt-xs">
+                    <div class="calc-inline-input">
+                      <span class="calc-label">AMOUNT PAID:</span>
+                      <input type="number" id="amountPaid" value="0" min="0" step="any" class="input-xs input-mono">
+                    </div>
+                    <span class="calc-value font-mono text-success" id="amountPaidDisplay">$0.00</span>
+                  </div>
+
+                  <div class="calc-row balance-due-row">
+                    <span class="balance-label">BALANCE DUE:</span>
+                    <span class="balance-value font-mono" id="balanceDueDisplay">$0.00</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="step-navigation-row">
+              <button class="btn btn-sm btn-outline prev-step-btn" data-target-step="3">← PREVIOUS: ITEMS</button>
+              <button class="btn btn-sm btn-primary next-step-btn" data-target-step="5">NEXT: STYLE & COLUMNS →</button>
+            </div>
+          </div>
+
+          <!-- ============================================ -->
+          <!-- STEP 5: STYLE ARCHETYPES, COLOR & COLUMNS    -->
+          <!-- ============================================ -->
+          <div class="panel-section step-section" id="stepSection5" data-step-id="5">
+            <div class="section-title-bar">
+              <span class="section-index">05</span>
+              <span class="section-title">LAYOUT ARCHETYPE, ACCENT COLOR & COLUMNS</span>
+              <button type="button" class="btn btn-xs btn-outline" id="resetVisibilityBtn">RESET DEFAULTS</button>
+            </div>
+
+            <!-- Layout Archetype Selector -->
+            <div class="style-config-card mb-md">
+              <div class="config-card-title">01 // INVOICE LAYOUT ARCHETYPE</div>
+              <div class="archetype-selector-grid">
+                <button type="button" class="archetype-card-btn active" data-archetype="swiss">
+                  <div class="arch-preview arch-preview-swiss">
+                    <div class="ap-bar"></div>
+                    <div class="ap-line"></div>
+                    <div class="ap-line-sm"></div>
+                  </div>
+                  <span class="arch-name">SWISS MINIMAL GRID</span>
+                  <span class="arch-desc">Clean hairline Bauhaus frames & top-right typography</span>
+                </button>
+
+                <button type="button" class="archetype-card-btn" data-archetype="band">
+                  <div class="arch-preview arch-preview-band">
+                    <div class="ap-band"></div>
+                    <div class="ap-line"></div>
+                    <div class="ap-line-sm"></div>
+                  </div>
+                  <span class="arch-name">MODERN HEADER BAND</span>
+                  <span class="arch-desc">Bold solid accent color top banner & high contrast</span>
+                </button>
+
+                <button type="button" class="archetype-card-btn" data-archetype="editorial">
+                  <div class="arch-preview arch-preview-editorial">
+                    <div class="ap-vert-line"></div>
+                    <div class="ap-line"></div>
+                    <div class="ap-line-sm"></div>
+                  </div>
+                  <span class="arch-name">EDITORIAL STARK LEFT</span>
+                  <span class="arch-desc">Left vertical accent spine & asymmetrical layout</span>
+                </button>
+
+                <button type="button" class="archetype-card-btn" data-archetype="ledger">
+                  <div class="arch-preview arch-preview-ledger">
+                    <div class="ap-double-box"></div>
+                  </div>
+                  <span class="arch-name">FRAMED LEDGER</span>
+                  <span class="arch-desc">Double border frame, zebra accounting rows & ledger box</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Color Palette Selector -->
+            <div class="style-config-card mb-md">
+              <div class="config-card-title">02 // TEMPLATE ACCENT COLOR</div>
+              <div class="color-palette-picker">
+                <button type="button" class="color-swatch-btn active" data-color="#09090b" title="Onyx Monolith Black"
+                  style="background-color: #09090b;"></button>
+                <button type="button" class="color-swatch-btn" data-color="#1d4ed8" title="International Klein Cobalt"
+                  style="background-color: #1d4ed8;"></button>
+                <button type="button" class="color-swatch-btn" data-color="#047857" title="Alpine Emerald Green"
+                  style="background-color: #047857;"></button>
+                <button type="button" class="color-swatch-btn" data-color="#b91c1c" title="Stark Crimson Red"
+                  style="background-color: #b91c1c;"></button>
+                <button type="button" class="color-swatch-btn" data-color="#b45309" title="Amber Industrial Bronze"
+                  style="background-color: #b45309;"></button>
+                <button type="button" class="color-swatch-btn" data-color="#6d28d9" title="Deep Violet Plum"
+                  style="background-color: #6d28d9;"></button>
+                <button type="button" class="color-swatch-btn" data-color="#334155" title="Graphite Slate Steel"
+                  style="background-color: #334155;"></button>
+
+                <div class="custom-color-wrapper">
+                  <label for="customColorInput" class="custom-color-label">CUSTOM:</label>
+                  <input type="color" id="customColorInput" value="#09090b" class="custom-color-input">
+                </div>
+              </div>
+            </div>
+
+            <!-- Column & Section Show/Hide Toggles -->
+            <div class="toggles-grid">
+              <!-- Table Columns Visibility & Alignment -->
+              <div class="toggle-card">
+                <div class="toggle-card-title">TABLE COLUMNS (SHOW/HIDE & ALIGN)</div>
+
+                <div class="toggle-row">
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="toggleColNum" checked>
+                    <span class="toggle-indicator"></span>
+                    <span class="toggle-text">Column: # (Item Index)</span>
+                  </label>
+                </div>
+
+                <div class="toggle-row">
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="toggleColSubdesc" checked>
+                    <span class="toggle-indicator"></span>
+                    <span class="toggle-text">Column: Sub-description Notes</span>
+                  </label>
+                </div>
+
+                <div class="toggle-row">
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="toggleColQty" checked>
+                    <span class="toggle-indicator"></span>
+                    <span class="toggle-text">Column: Quantity (QTY)</span>
+                  </label>
+                  <div class="align-selector">
+                    <select id="alignColQty" class="select-xs select-mono">
+                      <option value="right" selected>Right</option>
+                      <option value="center">Center</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="toggle-row">
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="toggleColRate" checked>
+                    <span class="toggle-indicator"></span>
+                    <span class="toggle-text">Column: Unit Price (RATE)</span>
+                  </label>
+                  <div class="align-selector">
+                    <select id="alignColRate" class="select-xs select-mono">
+                      <option value="right" selected>Right</option>
+                      <option value="center">Center</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="toggle-row">
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="toggleColTax" checked>
+                    <span class="toggle-indicator"></span>
+                    <span class="toggle-text">Column: Tax %</span>
+                  </label>
+                  <div class="align-selector">
+                    <select id="alignColTax" class="select-xs select-mono">
+                      <option value="right" selected>Right</option>
+                      <option value="center">Center</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="toggle-row">
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="toggleColAmount" checked>
+                    <span class="toggle-indicator"></span>
+                    <span class="toggle-text">Column: Total Amount</span>
+                  </label>
+                  <div class="align-selector">
+                    <select id="alignColAmount" class="select-xs select-mono">
+                      <option value="right" selected>Right</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Invoice Header & Parties Visibility -->
+              <div class="toggle-card">
+                <div class="toggle-card-title">HEADER & COUNTERPARTY VISIBILITY</div>
+
+                <div class="toggle-row">
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="toggleSecLogo" checked>
+                    <span class="toggle-indicator"></span>
+                    <span class="toggle-text">Company Logo / Monogram</span>
+                  </label>
+                </div>
+
+                <div class="toggle-row">
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="toggleSecSenderContacts" checked>
+                    <span class="toggle-indicator"></span>
+                    <span class="toggle-text">Issuer Phone & Email</span>
+                  </label>
+                </div>
+
+                <div class="toggle-row">
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="toggleSecSenderTax" checked>
+                    <span class="toggle-indicator"></span>
+                    <span class="toggle-text">Issuer Tax / VAT Number</span>
+                  </label>
+                </div>
+
+                <div class="toggle-row">
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="toggleSecClientContacts" checked>
+                    <span class="toggle-indicator"></span>
+                    <span class="toggle-text">Client Phone & Email</span>
+                  </label>
+                </div>
+
+                <div class="toggle-row">
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="toggleSecClientTax" checked>
+                    <span class="toggle-indicator"></span>
+                    <span class="toggle-text">Client Tax / VAT Number</span>
+                  </label>
+                </div>
+
+                <div class="toggle-row">
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="toggleSecCallout" checked>
+                    <span class="toggle-indicator"></span>
+                    <span class="toggle-text">Balance Payable Callout Box</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Settlement & Footer Toggles -->
+              <div class="toggle-card">
+                <div class="toggle-card-title">PAYMENT, LEGAL & FOOTER VISIBILITY</div>
+
+                <div class="toggle-row">
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="toggleSecBank" checked>
+                    <span class="toggle-indicator"></span>
+                    <span class="toggle-text">Bank / Wire Settlement Details</span>
+                  </label>
+                </div>
+
+                <div class="toggle-row">
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="toggleSecNotes" checked>
+                    <span class="toggle-indicator"></span>
+                    <span class="toggle-text">Instructions & Notes Block</span>
+                  </label>
+                </div>
+
+                <div class="toggle-row">
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="toggleSecTerms" checked>
+                    <span class="toggle-indicator"></span>
+                    <span class="toggle-text">Terms & Conditions Block</span>
+                  </label>
+                </div>
+
+                <div class="toggle-row">
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="toggleSecBarcode" checked>
+                    <span class="toggle-indicator"></span>
+                    <span class="toggle-text">Security Barcode & Stamp</span>
+                  </label>
+                </div>
+
+                <div class="toggle-row">
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="toggleSecFooter" checked>
+                    <span class="toggle-indicator"></span>
+                    <span class="toggle-text">Sheet Bottom Metadata Footer</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="step-navigation-row">
+              <button class="btn btn-sm btn-outline prev-step-btn" data-target-step="4">← PREVIOUS: DATES</button>
+              <button class="btn btn-sm btn-primary" id="finishAndPrintBtn">PRINT / EXPORT PDF</button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ============================================== -->
+      <!-- RIGHT PANEL: ARCHITECTURAL PAPER LIVE PREVIEW -->
+      <!-- ============================================== -->
+      <section class="preview-panel" id="previewPanel">
+        <div class="preview-toolbar no-print">
+          <div class="preview-toolbar-title">
+            <span class="toolbar-dot"></span> LIVE RENDER // A4 ARCHITECTURAL SPEC
+          </div>
+          <div class="preview-toolbar-actions">
+            <span class="preview-zoom-label" id="zoomLevelDisplay">100%</span>
+            <button class="btn btn-xs btn-outline" id="zoomOutBtn" title="Zoom Out">-</button>
+            <button class="btn btn-xs btn-outline" id="zoomResetBtn" title="Reset Zoom">100%</button>
+            <button class="btn btn-xs btn-outline" id="zoomInBtn" title="Zoom In">+</button>
+            <button class="btn btn-xs btn-primary" id="previewPrintBtn">PRINT NOW</button>
+          </div>
+        </div>
+
+        <!-- Preview Canvas Wrapper -->
+        <div class="preview-canvas-container" id="previewCanvasContainer">
+
+          <!-- Printable Invoice Sheet (Strict 0px radius, sharp layout) -->
+          <article class="invoice-sheet layout-swiss" id="invoiceSheet">
+
+            <!-- Optional Top Accent Band for Header Band Layout -->
+            <div class="sheet-band-strip" id="sheetBandStrip">
+              <span class="band-brand" id="bandBrandName">KONTUR ARCHITECTURAL STUDIOS</span>
+              <span class="band-tag font-mono">OFFICIAL TAX INVOICE</span>
+            </div>
+
+            <!-- Top Header Strip: Brand & Invoice Meta -->
+            <div class="sheet-header" id="pHeaderBlock">
+              <div class="sheet-brand-box" id="sheetBrandBox">
+                <div class="sheet-logo-container" id="sheetLogoContainer">
+                  <span class="sharp-monogram" id="sheetMonogram">KT</span>
+                </div>
+                <div class="sheet-brand-details">
+                  <h1 class="sheet-company-name" id="pSenderName">KONTUR ARCHITECTURAL STUDIOS</h1>
+                  <div class="sheet-company-meta" id="pSenderAddress">452 Industrial Parkway, Floor 04, Berlin, 10115
+                    Germany</div>
+                  <div class="sheet-company-meta font-mono" id="pSenderContacts">finance@kontur-studios.io | +49 30 9948
+                    2010</div>
+                  <div class="sheet-company-meta font-mono" id="pSenderTaxId">TAX ID: DE-398402910</div>
+                </div>
+              </div>
+
+              <div class="sheet-invoice-meta">
+                <div class="meta-headline" id="pMetaHeadline">INVOICE</div>
+                <div class="meta-badge-status" id="pStatusBadge">PENDING</div>
+                <table class="meta-info-table font-mono">
+                  <tr>
+                    <td>INVOICE NO:</td>
+                    <td class="text-right" id="pInvNumber">INV-2026-0108</td>
+                  </tr>
+                  <tr id="pIssueDateRow">
+                    <td>DATE:</td>
+                    <td class="text-right" id="pInvDate">2026-11-01</td>
+                  </tr>
+                  <tr id="pDueDateRow">
+                    <td>DUE DATE:</td>
+                    <td class="text-right" id="pInvDueDate">2026-12-01</td>
+                  </tr>
+                  <tr id="pTermsRow">
+                    <td>TERMS:</td>
+                    <td class="text-right" id="pPaymentTerms">Net 30 Days</td>
+                  </tr>
+                  <tr id="pPoRow">
+                    <td>REF / P.O:</td>
+                    <td class="text-right" id="pPoNumber">-</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+
+            <div class="sheet-divider-black"></div>
+
+            <!-- Counterparty Recipient Strip -->
+            <div class="sheet-billto-section" id="pBillToSection">
+              <div class="billto-block">
+                <div class="sheet-label-tag">BILLED TO / RECIPIENT</div>
+                <h2 class="recipient-name" id="pClientName">NEO-SYSTEMS CORP.</h2>
+                <div class="recipient-address" id="pClientAddress">780 Silicon Boulevard, Suite 1200, San Francisco, CA
+                  94107 USA</div>
+                <div class="recipient-meta font-mono" id="pClientContact">accounts@neosystems.com | +1 (415) 890-4421
+                </div>
+                <div class="recipient-meta font-mono" id="pClientTaxId">TAX ID: US-94-332019</div>
+              </div>
+
+              <div class="total-summary-callout" id="pCalloutBlock">
+                <div class="callout-label">BALANCE PAYABLE</div>
+                <div class="callout-amount font-mono" id="pBalanceCallout">$0.00</div>
+                <div class="callout-terms font-mono" id="pDueDateNotice">DUE BY 2026-12-01</div>
+              </div>
+            </div>
+
+            <!-- Line Items Table on Paper -->
+            <div class="sheet-table-section">
+              <table class="sheet-table">
+                <thead>
+                  <tr id="pSheetTableHeadRow">
+                    <th class="st-num st-col-num">NO.</th>
+                    <th class="st-desc st-col-desc">SPECIFICATION / DELIVERABLE</th>
+                    <th class="st-qty st-col-qty text-right">QTY</th>
+                    <th class="st-rate st-col-rate text-right">RATE</th>
+                    <th class="st-tax st-col-tax text-right">TAX</th>
+                    <th class="st-total st-col-total text-right">AMOUNT</th>
+                  </tr>
+                </thead>
+                <tbody id="pItemsTableBody">
+                  <!-- Populated live -->
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Bottom Section: Payment Instructions & Totals Grid -->
+            <div class="sheet-bottom-section">
+              <div class="sheet-notes-column">
+                <div class="info-block" id="pBankBlock">
+                  <div class="sheet-label-tag">WIRE / SETTLEMENT DETAILS</div>
+                  <pre class="sheet-code-text font-mono" id="pBankDetails">Bank Name: Deutsche Handelsbank AG
+Account Holder: Kontur Architectural Studios
+IBAN: DE89 3704 0044 0532 0130 00
+SWIFT/BIC: DEUTDEDDXXX</pre>
+                </div>
+
+                <div class="info-block" id="pNotesBlock">
+                  <div class="sheet-label-tag">INSTRUCTIONS & NOTES</div>
+                  <div class="sheet-regular-text" id="pInvoiceNotes">Please reference invoice number on transfer.</div>
+                </div>
+
+                <div class="info-block" id="pTermsBlock">
+                  <div class="sheet-label-tag">TERMS & CONDITIONS</div>
+                  <div class="sheet-terms-text" id="pInvoiceTerms">Payment due within 30 days.</div>
+                </div>
+              </div>
+
+              <!-- Financial Calculations Breakdown Table -->
+              <div class="sheet-totals-column">
+                <table class="sheet-calc-table font-mono">
+                  <tr>
+                    <td>SUBTOTAL:</td>
+                    <td class="text-right" id="pSubtotal">$0.00</td>
+                  </tr>
+                  <tr id="pDiscountRow">
+                    <td>DISCOUNT:</td>
+                    <td class="text-right text-danger" id="pDiscount">-$0.00</td>
+                  </tr>
+                  <tr id="pTaxRow">
+                    <td>TAX (<span id="pTaxPercent">10%</span>):</td>
+                    <td class="text-right" id="pTax">+$0.00</td>
+                  </tr>
+                  <tr id="pShippingRow">
+                    <td>SHIPPING / EXTRA:</td>
+                    <td class="text-right" id="pShipping">+$0.00</td>
+                  </tr>
+                  <tr class="st-grand-row">
+                    <td>TOTAL:</td>
+                    <td class="text-right" id="pGrandTotal">$0.00</td>
+                  </tr>
+                  <tr id="pPaidRow">
+                    <td>PAID TO DATE:</td>
+                    <td class="text-right text-success" id="pAmountPaid">$0.00</td>
+                  </tr>
+                  <tr class="st-balance-row">
+                    <td>AMOUNT DUE:</td>
+                    <td class="text-right" id="pBalanceDue">$0.00</td>
+                  </tr>
+                </table>
+
+                <!-- Sharp Barcode & Authentication Stamp -->
+                <div class="sheet-auth-stamp" id="pBarcodeBlock">
+                  <div class="barcode-graphic" aria-hidden="true">
+                    ||||| | |||| ||| || |||||| | ||||| || ||| |||| | ||||| ||| ||||
+                  </div>
+                  <div class="auth-caption font-mono">DIGITALLY VERIFIED // VERTEX.SYS</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bottom Footer Bar -->
+            <footer class="sheet-footer font-mono" id="pSheetFooter">
+              <span>VERTEX_INVOICE_ENGINE</span>
+              <span>PRECISION GEOMETRY // 0PX RADIUS</span>
+              <span id="pFooterTimestamp">GENERATED: 2026-11-01</span>
+            </footer>
+
+          </article>
+
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- MODAL: SAVED INVOICES ARCHIVE                  -->
+  <!-- ============================================== -->
+  <div class="modal-backdrop" id="savedModalBackdrop">
+    <div class="sharp-modal" id="savedModal">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <span class="modal-index">■</span>
+          <span class="modal-title">SAVED INVOICES ARCHIVE</span>
+        </div>
+        <button class="btn btn-xs btn-outline" id="closeSavedModalBtn">✕ CLOSE</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="modal-toolbar">
+          <input type="text" id="searchSavedInput" placeholder="SEARCH BY INVOICE # OR CLIENT NAME..."
+            class="input-mono">
+          <button class="btn btn-sm btn-outline" id="exportAllJsonBtn" title="Backup all saved invoices to JSON">EXPORT
+            JSON</button>
+          <label class="btn btn-sm btn-outline file-input-label">
+            IMPORT JSON
+            <input type="file" id="importJsonInput" accept=".json" style="display:none;">
+          </label>
+        </div>
+
+        <div class="saved-table-container">
+          <table class="saved-table font-mono" id="savedTable">
+            <thead>
+              <tr>
+                <th>INVOICE NO.</th>
+                <th>CLIENT</th>
+                <th>DATE</th>
+                <th>DUE</th>
+                <th>STATUS</th>
+                <th class="text-right">TOTAL</th>
+                <th class="text-right">ACTIONS</th>
+              </tr>
+            </thead>
+            <tbody id="savedTableBody">
+              <!-- Populated from localStorage -->
+            </tbody>
+          </table>
+          <div class="empty-state font-mono" id="savedEmptyState" style="display:none;">
+            NO SAVED INVOICES FOUND IN LOCAL ARCHIVE.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- MODAL: CHROME APP INSTALLATION INSTRUCTIONS    -->
+  <!-- ============================================== -->
+  <div class="modal-backdrop" id="installGuideModalBackdrop">
+    <div class="sharp-modal" id="installGuideModal">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <span class="modal-index">⤓</span>
+          <span class="modal-title">RUN & INSTALL AS CHROME DESKTOP APP</span>
+        </div>
+        <button class="btn btn-xs btn-outline" id="closeInstallGuideBtn">✕ CLOSE</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="guide-box">
+          <h3 class="guide-heading">HOW TO USE LOCALLY AS A NATIVE CHROME APP:</h3>
+          <ol class="guide-steps font-mono">
+            <li><strong>Method 1 (One-Click Chrome Install):</strong> In your Chrome browser address bar, click the
+              <strong>Install icon (⤓)</strong> on the right side of the URL, or click the <strong>"INSTALL
+                APP"</strong> button in this top bar, then select <em>Install</em>. VERTEX will launch in its own
+              standalone window without browser frames!
+            </li>
+            <li><strong>Method 2 (Chrome Menu):</strong> In Google Chrome, click the three dots <strong>(⋮)</strong> in
+              the top-right corner → Go to <strong>"Save and share"</strong> or <strong>"More tools"</strong> → Click
+              <strong>"Install VERTEX // Minimal Sharp Edge Invoice..."</strong>.
+            </li>
+            <li><strong>Method 3 (Desktop Shortcut):</strong> Open Chrome → Menu <strong>(⋮)</strong> → <strong>"Save
+                and share"</strong> → <strong>"Create shortcut..."</strong> → Check <strong>"Open as window"</strong> →
+              Click <em>Create</em>. A clean desktop shortcut with a sharp icon is immediately added to your Windows
+              Desktop and Start Menu!</li>
+          </ol>
+          <div class="guide-footer-tip font-mono">
+            [NOTE] Works completely offline locally with instant loading via built-in Service Worker.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sharp Notification Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>

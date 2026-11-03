@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Local Invoice</title>
+  <meta name="description" content="Create, save, and print invoices on your own device. Works offline and installs as a browser app.">
+  <meta name="theme-color" content="#0f172a">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" href="icon-192.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span class="brand-name">Local Invoice</span>
+    </div>
+    <div class="header-actions">
+      <button type="button" class="btn btn-ghost hidden" id="installBtn">Install app</button>
+      <button type="button" class="btn btn-ghost" id="newInvoiceBtn">New invoice</button>
+      <button type="button" class="btn btn-outline" id="savedToggleBtn">Saved <span id="savedCount">0</span></button>
+      <button type="button" class="btn btn-outline" id="saveBtn">Save</button>
+      <button type="button" class="btn btn-primary" id="printBtn">Print / PDF</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="editor" aria-label="Invoice details">
+      <fieldset class="card">
+        <legend>Invoice</legend>
+        <div class="grid grid-3">
+          <label class="field">
+            <span>Invoice number</span>
+            <input type="text" id="number">
+          </label>
+          <label class="field">
+            <span>Status</span>
+            <select id="status">
+              <option value="Draft">Draft</option>
+              <option value="Sent">Sent</option>
+              <option value="Paid">Paid</option>
+              <option value="Overdue">Overdue</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Currency</span>
+            <select id="currency">
+              <option value="USD">USD ($)</option>
+              <option value="EUR">EUR (€)</option>
+              <option value="GBP">GBP (£)</option>
+              <option value="JPY">JPY (¥)</option>
+              <option value="AUD">AUD (A$)</option>
+              <option value="CAD">CAD (C$)</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Issue date</span>
+            <input type="date" id="issueDate">
+          </label>
+          <label class="field">
+            <span>Due date</span>
+            <input type="date" id="dueDate">
+          </label>
+          <label class="field">
+            <span>Reference (optional)</span>
+            <input type="text" id="reference">
+          </label>
+        </div>
+      </fieldset>
+
+      <fieldset class="card">
+        <legend>From</legend>
+        <label class="field">
+          <span>Business name</span>
+          <input type="text" id="fromName">
+        </label>
+        <label class="field">
+          <span>Email</span>
+          <input type="email" id="fromEmail">
+        </label>
+        <label class="field">
+          <span>Address</span>
+          <textarea id="fromAddress" rows="2"></textarea>
+        </label>
+      </fieldset>
+
+      <fieldset class="card">
+        <legend>Bill to</legend>
+        <label class="field">
+          <span>Client name</span>
+          <input type="text" id="toName">
+        </label>
+        <label class="field">
+          <span>Email</span>
+          <input type="email" id="toEmail">
+        </label>
+        <label class="field">
+          <span>Address</span>
+          <textarea id="toAddress" rows="2"></textarea>
+        </label>
+      </fieldset>
+
+      <fieldset class="card">
+        <legend>Items</legend>
+        <div class="items-head" aria-hidden="true">
+          <span>Description</span><span>Qty</span><span>Rate</span><span></span>
+        </div>
+        <div id="itemsList"></div>
+        <button type="button" class="btn btn-outline btn-block" id="addItemBtn">+ Add item</button>
+      </fieldset>
+
+      <fieldset class="card">
+        <legend>Totals and notes</legend>
+        <div class="grid grid-2">
+          <label class="field">
+            <span>Discount (%)</span>
+            <input type="number" id="discount" min="0" max="100" step="0.01">
+          </label>
+          <label class="field">
+            <span>Tax (%)</span>
+            <input type="number" id="taxRate" min="0" max="100" step="0.01">
+          </label>
+        </div>
+        <label class="field">
+          <span>Payment instructions</span>
+          <textarea id="paymentInfo" rows="2"></textarea>
+        </label>
+        <label class="field">
+          <span>Notes</span>
+          <textarea id="notes" rows="2"></textarea>
+        </label>
+      </fieldset>
+    </section>
+
+    <section class="preview" aria-label="Invoice preview">
+      <article class="sheet" id="sheet"></article>
+    </section>
+  </main>
+
+  <aside class="saved-panel hidden" id="savedPanel" aria-label="Saved invoices">
+    <div class="saved-head">
+      <h2>Saved invoices</h2>
+      <button type="button" class="btn btn-ghost" id="closeSavedBtn">Close</button>
+    </div>
+    <p class="muted" id="savedEmpty">No saved invoices yet. Use Save to keep one on this device.</p>
+    <ul class="saved-list" id="savedList"></ul>
+  </aside>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
