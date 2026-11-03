@@ -2253,6 +2253,8 @@ textarea {
     transform: none !important;
   }
 
+  .invoice-sheet,
+  .invoice-sheet *,
   .sheet-band-strip,
   .sheet-billto-section,
   .meta-badge-status {
