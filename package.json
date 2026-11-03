@@ -1,0 +1,18 @@
+{
+  "name": "inovice-app",
+  "version": "1.0.0",
+  "description": "Minimal, modern sharp-edge invoice application",
+  "main": "index.html",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "invoice",
+    "sharp-edge",
+    "minimal",
+    "modern"
+  ],
+  "author": "",
+  "license": "MIT"
+}
