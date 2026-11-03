@@ -2209,24 +2209,34 @@ textarea {
     display: none !important;
   }
 
+  html,
+  body,
   .workspace-screen,
-  .app-layout {
+  .app-layout,
+  .preview-panel,
+  .preview-canvas-container {
     display: block !important;
     height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
     overflow: visible !important;
+    position: static !important;
   }
 
-  .preview-panel {
+  .preview-panel,
+  .preview-canvas-container {
     background: #ffffff !important;
     padding: 0 !important;
-    overflow: visible !important;
-    display: block !important;
+    margin: 0 !important;
   }
 
-  .preview-canvas-container {
-    padding: 0 !important;
-    display: block !important;
-    overflow: visible !important;
+  .sheet-table tr,
+  .sheet-table td,
+  .sheet-bottom-section,
+  .sheet-auth-stamp,
+  .info-block {
+    break-inside: avoid;
+    page-break-inside: avoid;
   }
 
   .invoice-sheet {
